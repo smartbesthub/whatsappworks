@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import pywhatkit as kit
-from datetime import datetime, timedelta
+import os  # For getting Heroku's PORT environment variable
 
 app = Flask(__name__)
 
@@ -27,4 +27,5 @@ def send_order_notification():
         return jsonify({"status": "error", "message": "Missing phone number or message"}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = os.environ.get('PORT', 5000)  # Get the Heroku port or use 5000 for local testing
+    app.run(host='0.0.0.0', port=port)  # Bind to all available IPs
